@@ -1,0 +1,27 @@
+{
+   "background": {
+   },
+   "browser_action": {
+      "default_icon": "icon.png"
+   },
+   "content_scripts":[
+        {  
+            "matches" : ["*://haha.gamer.com.tw/*"],  
+            "js" : ["jquery3.4.1.js","content.js"],
+			"run_at" : "document_end"
+        }
+   ],
+   "description": "hahachat-badlist",
+   "icons": {
+      "128": "icon.png"
+   },
+   "web_accessible_resources": [
+    "BLACK.json"
+   ],
+   "author" : "LEXrs",
+   "manifest_version": 2,
+   "name": "hahachat-badlist",
+   "permissions": [ "storage", "unlimitedStorage", "tabs", "activeTab"],
+   "short_name": "hahachat-badlist",
+   "version": "1.0"
+}

@@ -1,0 +1,1 @@
+const url = chrome.runtime.getUrl("black.json")
