@@ -1,6 +1,4 @@
 {
-   "background": {
-   },
    "browser_action": {
       "default_icon": "icon.png"
    },
@@ -16,12 +14,15 @@
       "128": "icon.png"
    },
    "web_accessible_resources": [
-    "BLACK.json"
    ],
    "author" : "LEXrs",
+   "options_ui": {
+    "page": "background.html",
+    "open_in_tab": false
+  },
    "manifest_version": 2,
    "name": "hahachat-badlist",
    "permissions": [ "storage", "unlimitedStorage", "tabs", "activeTab"],
    "short_name": "hahachat-badlist",
-   "version": "1.0"
+   "version": "1.1"
 }

@@ -2,6 +2,7 @@ var someone = "";
 var readid = "";
 var outid = "";
 createE();
+const url = chrome.runtime.getURL('background.html');
 //清理跟測試ARRAY
 chrome.storage.local.get(['list'], function(result) {
 	   outid = result.list;
@@ -18,21 +19,13 @@ inputT.id = "blistin";
 inputT.cols="10";
 inputT.rows="1";
 var btn = document.createElement("button");
-var btn2 = document.createElement("button");
 btn.id = "c1";
-btn2.id = "c2";
 var inject = document.getElementById("im_inputbox");
 var text1 = document.createTextNode("新增黑名單");
-var text2 = document.createTextNode("清除黑名單");
 inject.appendChild(btn);
 inject.appendChild(inputT);
-inject.appendChild(btn2);
-btn2.appendChild(text2);
 btn.appendChild(text1);
 }
-$("#c2").click(function(){
-chrome.storage.local.clear();
-});
 //讀取現有清單加入新名單
 $("#c1").click(function(){
 	chrome.storage.local.get(['list'], function(result) {
@@ -60,6 +53,7 @@ $("#c1").click(function(){
 		  }
         });
 });
+
 /* 舊 讀取TXT方案 (無法寫入 放棄)
 const url = chrome.runtime.getURL('BLACK.json');
 
