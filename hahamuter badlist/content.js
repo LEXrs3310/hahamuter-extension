@@ -19,7 +19,7 @@ chrome.storage.local.get(['list'], function(result) {
 //創建元素區
 function createE(e){
 var btn = document.createElement("button");
-btn.style = "width:100px;height:30px";
+btn.style = "width:100px;height:30px;border-radius:8px";
 btn.style.color= 'gray';
 btn.style.border = "2px blue";
 btn.style.background = "paleturquoise";
