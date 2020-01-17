@@ -20,6 +20,9 @@ chrome.storage.local.get(['list'], function(result) {
 function createE(e){
 var btn = document.createElement("button");
 btn.style = "width:100px;height:30px";
+btn.style.color= 'gray';
+btn.style.border = "2px blue";
+btn.style.background = "paleturquoise";
 var text1 = document.createTextNode("新增進黑名單");
 var text2 = document.createTextNode("封鎖1小時");
 e.appendChild(btn);
