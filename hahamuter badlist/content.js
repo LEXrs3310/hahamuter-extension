@@ -1,8 +1,9 @@
 var someone = "";
 var readid = "";
 var outid = "";
-createE();
-const url = chrome.runtime.getURL('background.html');
+const timenow = Date.now();
+var inject = document.getElementsByClassName("msg-box");
+//createE();
 //讀取資料確認資料內容
 chrome.storage.local.get(['list'], function(result) {
 	   outid = result.list;
@@ -11,29 +12,64 @@ chrome.storage.local.get(['list'], function(result) {
 	   {
 		  outid = [{'id': 'ddddddddd'}];
 	   }
+	   for(i=0;i<outid.length;i++)
+	   {
+	   if (outid[i].time <= timenow)
+	   {
+		   outid.splice(i,1);
+		   chrome.storage.local.set({'list': outid}, function() {
+		   });
+	  }
+	   }
         });
 //創建元素區
-function createE(){
-var inputT = document.createElement("input");
+function createE(e){
+/*var inputT = document.createElement("input");
 inputT.id = "blistin";
 inputT.cols="16";
-inputT.type = "text";
+inputT.type = "text";*/
 var btn = document.createElement("button");
-btn.id = "c1";
-var inject = document.getElementById("im_inputbox");
-var text1 = document.createTextNode("新增黑名單");
-inject.appendChild(btn);
-inject.appendChild(inputT);
+//var btn2 = document.createElement("button");
+//btn.id = "c1";
+//btn2.id = "c2";
+btn.style = "width:100px;height:30px";
+var text1 = document.createTextNode("新增進黑名單");
+var text2 = document.createTextNode("封鎖1小時");
+e.appendChild(btn);
+//inject.appendChild(inputT);
+//inject.appendChild(btn2);
 btn.appendChild(text1);
+//btn2.appendChild(text2)
 
-$("#c1").attr("style","width:100px;height:30px;border:2px blue;background-color:paleturquoise;")
+//$("#c1").attr("style","width:100px;height:30px;border:2px blue;background-color:paleturquoise;")
+//$("#c2").attr("style","width:100px;height:30px;border:2px blue;background-color:paleturquoise;")
 }
+
+document.getElementById("im_msgbox").addEventListener('DOMNodeInserted', function(f){
+if(f.target.className == "msg-box")
+{
+	createE(f.target.children[1].children[0]);
+}
+});
+
+document.getElementById("im_msgbox").addEventListener('click', function(a){
+var tar = a.target.closest('.msg-box');
+//tar=每一個人發言的框框
+console.log(a.target.tagName)
+console.log(tar.children[0].children[0].dataset.gamercardUserid)
+if(a.target.tagName == "BUTTON" && tar.children[0].children[0].dataset.gamercardUserid != undefined)
+{
+addlist(tar.children[0].children[0].dataset.gamercardUserid);
+tar.innerHTML="";
+}
+});
 //讀取現有清單加入新名單
-$("#c1").click(function(){
+
+function addlist(nameid){
 	var re = /[^A-Z|0-9]/gi
 	chrome.storage.local.get(['list'], function(result) {
-		if($('#blistin').val() != "" && $('#blistin').val().match(re) == null){
-		  someone = [{'id': $('#blistin').val()}];
+		if(nameid != "" && nameid.match(re) == null){
+		  someone = [{'id': nameid}];
 		}
 		else{
 		  alert('框框內給我填英數帳號(非ID)哦');
@@ -45,7 +81,6 @@ $("#c1").click(function(){
 		  outid = readid.concat(someone);
 		  console.log(outid);
 		  chrome.storage.local.set({'list': outid}, function() {
-			  $('#blistin').val("");
         });
 		  }
 		  else
@@ -53,26 +88,13 @@ $("#c1").click(function(){
 			  outid = someone;
 			  console.log(outid);
 			  chrome.storage.local.set({'list': outid}, function() {
-				  $('#blistin').val("");
         });
 		  }
-        });
-});
+        })
+}
 
-/* 舊 讀取TXT方案 (無法寫入 放棄)
-const url = chrome.runtime.getURL('BLACK.json');
-
-$.ajax({
-  dataType: "json",
-  url: url,
-  success: function(data){
-  someone = data;
-  }
-});
-*/
-
-
-document.addEventListener('DOMNodeInserted', function(e)
+//自動讀取頁面DOMchange清除黑名單中帳戶的發言
+document.getElementById("im_msgbox").addEventListener('DOMNodeInserted', function(e)
 {
 	for(i=0;i<outid.length;i++)
 	{

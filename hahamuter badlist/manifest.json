@@ -24,5 +24,5 @@
    "name": "hahachat-badlist",
    "permissions": [ "storage", "unlimitedStorage", "tabs", "activeTab"],
    "short_name": "hahachat-badlist",
-   "version": "1.2"
+   "version": "1.3"
 }
