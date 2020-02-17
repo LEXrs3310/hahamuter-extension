@@ -1,10 +1,8 @@
 var someone = "";
 var readid = "";
 var outid = "";
-const timenow = Date.now();
 var inject = document.getElementsByClassName("msg-box");
 readlist();
-//createE();
 //讀取資料確認資料內容
 function readlist(){
 chrome.storage.local.get(['list'], function(result) {
