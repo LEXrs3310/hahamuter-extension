@@ -1,10 +1,15 @@
 {
-   "browser_action": {
-      "default_icon": "icon.png"
+   "page_action": {
+      "default_icon": "icon.png",
+	  "default_popup": "popup.html"
+   },
+   "background":{
+         "scripts": ["background.js"],
+      "persistent": false
    },
    "content_scripts":[
         {  
-            "matches" : ["*://haha.gamer.com.tw/*"],  
+            "matches" : ["*://haha.gamer.com.tw/?room=*"],  
             "js" : ["jquery3.4.1.js","content.js"],
 			"run_at" : "document_end"
         }
@@ -13,16 +18,10 @@
    "icons": {
       "128": "icon.png"
    },
-   "web_accessible_resources": [
-   ],
    "author" : "LEXrs",
-   "options_ui": {
-    "page": "background.html",
-    "open_in_tab": false
-  },
    "manifest_version": 2,
    "name": "hahachat-badlist",
-   "permissions": [ "storage", "unlimitedStorage", "tabs", "activeTab"],
+   "permissions": [ "storage", "unlimitedStorage", "tabs", "activeTab", "declarativeContent"],
    "short_name": "hahachat-badlist",
    "version": "1.3"
 }

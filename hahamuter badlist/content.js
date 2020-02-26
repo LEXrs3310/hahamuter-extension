@@ -3,17 +3,13 @@ var readid = "";
 var outid = "";
 var inject = document.getElementsByClassName("msg-box");
 readlist();
+
 //讀取資料確認資料內容
 function readlist(){
 chrome.storage.local.get(['list'], function(result) {
 	   outid = result.list;
-	   console.log(outid);
-	   if (outid == undefined)
-	   {
-		  outid = [{'id': 'ddddddddd'}];
-	   }
         });
-}
+	}
 //創建元素區
 function createE(e){
 var btn = document.createElement("button");
@@ -22,40 +18,27 @@ btn.style.color= 'gray';
 btn.style.border = "2px blue";
 btn.style.background = "paleturquoise";
 var text1 = document.createTextNode("新增進黑名單");
-var text2 = document.createTextNode("封鎖1小時");
 e.appendChild(btn);
 btn.appendChild(text1);
 
 //$("#c1").attr("style","width:100px;height:30px;border:2px blue;background-color:paleturquoise;")
 //$("#c2").attr("style","width:100px;height:30px;border:2px blue;background-color:paleturquoise;")
 }
-
-document.getElementById("im_msgbox").addEventListener('DOMNodeInserted', function(f){
-if(f.target.className == "msg-box")
-{
-	createE(f.target.children[1].children[0]);
-}
-});
-
 document.getElementById("im_msgbox").addEventListener('click', function(a){
 var tar = a.target.closest('.msg-box');
 //tar=每一個人發言的框框
 if(a.target.tagName == "BUTTON" && tar.children[0].children[0].dataset.gamercardUserid != undefined){
-addlist(tar.children[0].children[0].dataset.gamercardUserid);
+	var aid = tar.children[0].children[0].dataset.gamercardUserid;
+	var nameid = tar.children[1].children[0].children[0].textContent;
+addlist(aid,nameid);
 }
 });
 //讀取現有清單加入新名單
 
-function addlist(nameid){
+function addlist(aid,nameid){
 	var re = /[^A-Z|0-9]/gi
 	chrome.storage.local.get(['list'], function(result) {
-		if(nameid != "" && nameid.match(re) == null){
-		  someone = [{'id': nameid}];
-		}
-		else{
-		  alert('框框內給我填英數帳號(非ID)哦');
-		  return;
-		}
+		  someone = [{'id': aid,'name': nameid}];
 		  if(result.list != undefined)
 		  {
 		  readid = result.list;
@@ -77,8 +60,20 @@ function addlist(nameid){
 }
 
 //自動讀取頁面DOMchange清除黑名單中帳戶的發言
-document.getElementById("im_msgbox").addEventListener('DOMNodeInserted', function(){
+document.getElementById("im_msgbox").addEventListener('DOMNodeInserted', function(f){
+	if(f.target.className == "msg-box")
+{
+	createE(f.target.children[1].children[0]);
+		   if (isEmptyObject(outid))
+	   {
+		   return;
+	   }
+	   else
+	   {
+    readlist();
 	autoclear();
+	   }
+}
 });
 
 function autoclear(){
@@ -93,4 +88,11 @@ function autoclear(){
 		}
 	}
 	}
+}
+
+function isEmptyObject(obj) {
+for (var key in obj) {
+return false;
+}
+return true;
 }
